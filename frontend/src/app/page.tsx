@@ -54,6 +54,7 @@ export default function Home() {
     setIsUploading(true);
     
     try {
+      // Attempt 1: Call the local Python backend
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("model_name", selectedModel);
@@ -68,8 +69,35 @@ export default function Home() {
       const data = await res.json();
       setResult(data);
     } catch (error) {
-      console.error(error);
-      alert("Failed to connect to the ML backend. Ensure the FastAPI server is running.");
+      // Attempt 2: Fallback to in-browser classification for Vercel
+      console.warn("Local backend failed (likely running on Vercel). Falling back to in-browser Transformers.js...");
+      try {
+        const { pipeline, env } = await import("@huggingface/transformers");
+        // Disable local models, fetch from HuggingFace
+        env.allowLocalModels = false;
+        
+        const classifier = await pipeline("image-classification", "Xenova/mobilenet_v2_1.0_224");
+        
+        const imageUrl = URL.createObjectURL(imageFile);
+        const startTime = performance.now();
+        
+        // Ensure result is cast to the right type (array of objects with label and score)
+        const results = await classifier(imageUrl) as Array<{ label: string; score: number }>;
+        const latency = performance.now() - startTime;
+        
+        if (results && results.length > 0) {
+          const topResult = results[0];
+          setResult({
+            model_name: "In-Browser MobileNet (Fallback)",
+            class_name: topResult.label.replace(/_/g, " ").toUpperCase(),
+            confidence: topResult.score,
+            latency_ms: Math.round(latency)
+          });
+        }
+      } catch (fallbackError) {
+        console.error(fallbackError);
+        alert("Failed to connect to the ML backend and the in-browser fallback failed. Ensure the FastAPI server is running.");
+      }
     } finally {
       setIsUploading(false);
     }

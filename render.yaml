@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: lumina-ai-backend
+    env: docker
+    region: ohio
+    plan: free
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
