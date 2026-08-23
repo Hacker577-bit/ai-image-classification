@@ -74,8 +74,7 @@ async def predict_image(file: UploadFile = File(...)):
 
 @app.post("/train")
 async def train_custom_dataset(file: UploadFile = File(...)):
-    # Placeholder for custom dataset training
-    # In a real scenario, this would unzip the dataset, create DataLoaders, and fine-tune a model.
+    # ponytail: Simulated training loop. Ceiling: Does not actually train a model. Upgrade: Implement a real PyTorch DataLoader and fine-tuning loop in a background worker (e.g., Celery) to prevent blocking the API.
     return {"message": "Training job started (Simulated)", "status": "running"}
 
 if __name__ == "__main__":
