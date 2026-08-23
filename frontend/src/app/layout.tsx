@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <body className="min-h-screen bg-background text-foreground bg-wave font-sans selection:bg-primary/30 selection:text-primary">
+      <body className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 selection:text-primary">
         <main className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}
         </main>

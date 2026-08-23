@@ -150,14 +150,14 @@ export default function Home() {
           <button 
             onClick={simulateTraining}
             disabled={isTraining}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 hover:bg-purple-500/20 transition-colors border border-purple-500/20 text-purple-400 text-sm font-medium shadow-sm backdrop-blur-md disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors border border-border text-foreground text-sm font-medium shadow-sm backdrop-blur-md disabled:opacity-50"
           >
             {isTraining ? <RefreshCw className="animate-spin" size={16} /> : <Database size={16} />}
             {isTraining ? "Training..." : "Custom Train Dataset"}
           </button>
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-indigo-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground">
           AI Image Classification
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-light">
@@ -195,8 +195,8 @@ export default function Home() {
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
               >
-                <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 shadow-inner">
-                  <UploadCloud className="text-primary w-10 h-10" />
+                <div className="h-20 w-20 rounded-full bg-secondary flex items-center justify-center mb-6 shadow-inner">
+                  <UploadCloud className="text-foreground w-10 h-10" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Drag & Drop Image</h3>
                 <p className="text-muted-foreground text-sm mb-6">or click to browse from your device</p>
@@ -258,7 +258,7 @@ export default function Home() {
                   <button
                     onClick={() => handleClassify(file!)}
                     disabled={isUploading}
-                    className="w-full relative group overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-4 px-8 rounded-xl transition-all shadow-[0_0_40px_-10px_rgba(124,58,237,0.5)] flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full relative group overflow-hidden bg-foreground hover:bg-foreground/90 text-background font-semibold py-4 px-8 rounded-xl transition-all shadow-md flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isUploading ? (
                       <>
@@ -293,19 +293,19 @@ export default function Home() {
                           <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
                             Predicted Class ({result.model_name})
                           </p>
-                          <p className="text-2xl font-bold capitalize text-primary drop-shadow-sm">{result.class_name}</p>
+                          <p className="text-2xl font-bold capitalize text-foreground drop-shadow-sm">{result.class_name}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-3xl font-light">{(result.confidence * 100).toFixed(1)}<span className="text-lg text-muted-foreground">%</span></p>
                         </div>
                       </div>
                       
-                      <div className="w-full bg-secondary/50 rounded-full h-3 overflow-hidden shadow-inner">
+                      <div className="w-full bg-secondary rounded-full h-3 overflow-hidden shadow-inner">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${result.confidence * 100}%` }}
                           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                          className="bg-gradient-to-r from-primary to-purple-400 h-full rounded-full"
+                          className="bg-foreground h-full rounded-full"
                         />
                       </div>
                     </div>
