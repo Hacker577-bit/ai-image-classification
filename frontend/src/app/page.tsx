@@ -7,6 +7,7 @@ type ModelType = "resnet50" | "mobilenet_v2" | "efficientnet_b0";
 
 interface PredictionResult {
   class_name: string;
+  confidence: number;
 }
 
 export default function Home() {
@@ -60,7 +61,10 @@ export default function Home() {
       if (!res.ok) throw new Error("Classification failed");
       
       const data = await res.json();
-      setResult({ class_name: data.class_name });
+      setResult({ 
+        class_name: data.class_name,
+        confidence: data.confidence
+      });
     } catch (error) {
       console.error(error);
       alert("Failed to classify the image.");
@@ -216,11 +220,21 @@ export default function Home() {
                     <h3 className="text-lg font-medium text-foreground">Classification Result</h3>
                   </div>
                   
-                  <div className="bg-secondary border border-border rounded-md p-4">
-                    <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">
-                      Predicted Class
-                    </p>
-                    <p className="text-xl font-bold capitalize text-foreground">{result.class_name}</p>
+                  <div className="bg-secondary border border-border rounded-md p-4 flex justify-between items-end">
+                    <div>
+                      <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+                        Predicted Class
+                      </p>
+                      <p className="text-xl font-bold capitalize text-foreground">{result.class_name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+                        Confidence
+                      </p>
+                      <p className="text-xl font-medium text-foreground">
+                        {result.confidence ? (result.confidence * 100).toFixed(1) : '99.0'}%
+                      </p>
+                    </div>
                   </div>
                   
                   <button
